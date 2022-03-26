@@ -190,10 +190,10 @@ def chooseShipsPositions(shipsList, board, user):
             if user == 1:
                 print('\nChoose the coordinates of your ship (Length {})'.format(new_ship.length))
             coo_ship = requestShipData(new_ship.length, user)
-            new_ship = S.ship(new_ship.length,coo_ship['Origin'],coo_ship['End'],coo_ship['Orientation'])
-            newShips.append(new_ship)
+            new_ship = S.ship(new_ship.length,coo_ship['Origin'],coo_ship['End'],coo_ship['Orientation'])            
             if validSpace(board,new_ship, user):
                 putShipOnBoard(board,new_ship)
+                newShips.append(new_ship)
                 if user == 1:
                     drawBox(board)           
                 valid_ship = True

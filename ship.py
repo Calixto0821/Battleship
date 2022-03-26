@@ -31,5 +31,3 @@ def checkStatus(shipList,coorX,coorY):
                     if space == '*':
                         cont += 1
                 ship.sunk = True if cont == ship.length else print('The ship still has spaces to attack')
-                    
-        print('check if the ship has been attacked by the enemy')

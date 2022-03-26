@@ -37,11 +37,22 @@ if F.mainMenu():
     PC_sL5 = newPCShips[3]
     print('---------------------------------------------------------------------------------------')
     print('------------------------------------STAR THE GAME--------------------------------------')
+    print('Enemy Board:')
     F.drawBox(PC_Board) #Plot enemy board
 
     print('\nPlayer Bodys\n')
     print(sL3_1.body,sL3_2.body,sL4.body,sL5.body, sep='\n')
     
+    print('\nPC Bodys\n')
+    print(PC_sL3_1.body,PC_sL3_2.body,PC_sL4.body,PC_sL5.body, sep='\n')
+    
+    for i in range(3):
+        attack = player1.attackShip(player1_AttackBoard,PC_Board,1)
+        if attack[0]:
+            checkStatus([PC_sL3_1,PC_sL3_2,PC_sL4,PC_sL5],attack[1],attack[2])
+        F.drawBox(player1_AttackBoard)
+        F.drawBox(PC_Board)
+
     """player1.attackShip(player1_AttackBoard,PC_Board,1)
     F.drawBox(player1_AttackBoard)
     F.drawBox(PC_Board)
