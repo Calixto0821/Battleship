@@ -58,4 +58,91 @@ def mainMenu():
                 return True
             elif answer == 2:
                 validAnswer = True
-                return False     
+                return False       
+def requestShipData(shipLength):
+    print('Where is the origin from you first ship')
+    originX = int(input('Coordinate X:'))
+    originY = int(input('Coordinate Y:'))
+    validOrientation = False
+    while not validOrientation:
+        orientation = input('How do you want to orient this ship? [V] Vertical|[H] Horizontal: ')
+        answer = orientation.upper()
+        if answer == 'V' or answer == 'H':
+            validOrientation = True
+    df = (shipLength-1)
+    if orientation.upper() == 'V':
+        endX = originX
+        if originY-df>=1 and originY+df<=8:
+            print('[1]. Your ship could end in X:{x} Y:{y}'.format(x=endX,y=originY-df))
+            print('[2]. Your ship could end in X:{x} Y:{y}'.format(x=endX,y=originY+df))
+            validOption = False
+            while not validOption:
+                option = int(input('Choose one between [1] and [2]: '))
+                if option == 1:
+                    endY = originY-df
+                    validOption = True
+                elif option == 2:
+                    endY = originY+df
+                    validOption = True
+        elif originY-df>=1:
+            print('Your ship only can end in X:{x} Y:{y}'.format(x=endX,y=originY-df))
+            endY = originY-df
+        elif originY+df<=8:
+            print('Your ship only can end in X:{x} Y:{y}'.format(x=endX,y=originY+df))
+            endY = originY+df
+    elif orientation.upper() == 'H':
+        endY = originY
+        if originX-(shipLength-1)>=1 and originX+df<=8:
+            print('[1]. Your ship could end in X:{x} Y:{y}'.format(x=originX-df,y=endY))
+            print('[2]. Your ship could end in X:{x} Y:{y}'.format(x=originX+df,y=endY))
+            validOption = False
+            while not validOption:
+                option = int(input('Choose one between [1] and [2]: '))
+                if option == 1:
+                    endX = originX-df
+                    validOption = True
+                elif option == 2:
+                    endX = originX+df
+                    validOption = True
+        elif originX-df>=1:
+            print('Your ship only can end in X:{x} Y:{y}'.format(x=originX-df,y=endY))
+            endX = originX-df
+        elif originX+df<=8:
+            print('Your ship only can end in X:{x} Y:{y}'.format(x=originX+df,y=endY))
+            endX = originX+df
+    print('The final coordinate is\nOrigin: [{xo},{yo}]\nEnd: [{xe},{ye}]'.format(xo=originX,yo=originY,xe=endX,ye=endY))
+    cooOrigin = [originX,originY]
+    cooEnd = [endX,endY]
+    return {'Origin':cooOrigin,'End':cooEnd,'Orientation':orientation.upper()}
+def putShipOnBoard(board,ship):
+    if ship.orientation == 'V':
+        itV = 1 if ship.origin[1]<ship.end[1] else -1
+        for i in range(ship.origin[1],ship.end[1]+(itV),itV):
+            board[i-1][ship.origin[0]-1] = ship.length
+    elif ship.orientation == 'H':
+        itH = 1 if ship.origin[1]<ship.end[1] else -1
+        for i in range(ship.origin[0],ship.end[0]+(itH),itH):
+            board[ship.origin[1]-1][i-1] = ship.length
+    else:
+        print('Error wwith the ship Orientation (putShipOnBoard)')
+def validSpace(board,ship):
+    if ship.orientation == 'V':
+        itV = 1 if ship.origin[1]<ship.end[1] else -1
+        for i in range(ship.origin[1],ship.end[1]+(itV), itV):
+            if board[i-1][ship.origin[0]-1] != ' ':
+                print('In the square [{}][{}] there is something'.format(ship.origin[1]+2,'Y'))
+                return False
+            else:
+                print('The square [{}][{}] is free'.format('X',i))
+        return True
+    elif ship.orientation == 'H':
+        itH = 1 if ship.origin[0]<ship.end[0] else -1
+        for i in range(ship.origin[0],ship.end[0]+(itH), itH):
+            if board[ship.origin[1]-1][i-1] != ' ':
+                print('In the square [{}][{}] there is something'.format(i,ship.origin[1]))
+                return False
+            else:
+                print('The square [{}][{}] is free'.format(i,ship.origin[1]))
+        return True
+    else:
+        print('Error with the ship Orientation (putShipOnBoard)')
