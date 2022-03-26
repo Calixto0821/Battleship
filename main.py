@@ -1,42 +1,52 @@
+from tkinter import N
 import functions as F
 from ship import *
-F.clearConsole()
-mainBoard = F.createBoard(8,8)
-F.drawBox(mainBoard)
+from player import *
+#F.clearConsole()
+
 if F.mainMenu():
-    F.clearConsole()
-    F.drawBox(mainBoard)
-    valid_sL3 = False
-    while not valid_sL3:
-        print('\nChoose the coordinates of your firts ship (Length 3)')
-        coo_sL3 = F.requestShipData(3)
-        sL3 = ship(3,coo_sL3['Origin'],coo_sL3['End'],coo_sL3['Orientation'])
-        if F.validSpace(mainBoard,sL3):
-            F.putShipOnBoard(mainBoard,sL3)
-            F.drawBox(mainBoard)           
-            valid_sL3 = True
-        else:
-            print('\nYOU WON\'T BE ABLE TO PUT YOUR SHIP THERE, BECAUSE ALREADY THERE IS ANOTHER ONE THERE.\nTRY ANOTHER COORDINATE') 
+    #F.clearConsole()
+    player1 = player(input('Type your name: '))
+    print('You have four ships \n - Two submarines [3 spaces]\n - One Destroyer [4 spaces]\n - One Aircraft carrier [5 spaces]')
+    player1_Board = F.createBoard(8,8) #Board[row][column] | [Y][X]
+    player1_AttackBoard = F.createBoard(8,8) #
+    PC_Board = F.createBoard(8,8) #Board[row][column] | [Y][X]
+    PC_AttackBoard = F.createBoard(8,8)
+    F.drawBox(player1_Board)
+
+    #Set up on the board Player ships
+    sL3_1 = ship(3,[0,0],[0,0],'N')
+    sL3_2 = ship(3,[0,0],[0,0],'N')
+    sL4 = ship(4,[0,0],[0,0],'N')
+    sL5 = ship(5,[0,0],[0,0],'N')
+    newPlayerShips = F.chooseShipsPositions([sL3_1,sL3_2,sL4,sL5], player1_Board,1)
+    sL3_1 = newPlayerShips[0]
+    sL3_2 = newPlayerShips[1]
+    sL4 = newPlayerShips[2]
+    sL5 = newPlayerShips[3]
+
+    #Set up on the board PC ships
+    PC_sL3_1 = ship(3,[0,0],[0,0],'N')
+    PC_sL3_2 = ship(3,[0,0],[0,0],'N')
+    PC_sL4 = ship(4,[0,0],[0,0],'N')
+    PC_sL5 = ship(5,[0,0],[0,0],'N')        
+    newPCShips = F.chooseShipsPositions([PC_sL3_1,PC_sL3_2,PC_sL4,PC_sL5], PC_Board,2)
+    PC_sL3_1 = newPCShips[0]
+    PC_sL3_2 = newPCShips[1]
+    PC_sL4 = newPCShips[2]
+    PC_sL5 = newPCShips[3]
+    print('---------------------------------------------------------------------------------------')
+    print('------------------------------------STAR THE GAME--------------------------------------')
+    F.drawBox(PC_Board) #Plot enemy board
+
+    print('\nPlayer Bodys\n')
+    print(sL3_1.body,sL3_2.body,sL4.body,sL5.body, sep='\n')
     
-          
-    valid_sL4 = False
-    while not valid_sL4:       
-        print('\nChoose the coordinates of your firts ship (Length 4)')
-        coo_sL4 = F.requestShipData(4)
-        sL4 = ship(4,coo_sL4['Origin'],coo_sL4['End'],coo_sL4['Orientation'])
-        if F.validSpace(mainBoard,sL4):
-            F.putShipOnBoard(mainBoard,sL4)
-            F.drawBox(mainBoard)
-            valid_sL4 = True
-        else:
-            print('\nYOU WON\'T BE ABLE TO PUT YOUR SHIP THERE, BECAUSE ALREADY THERE IS ANOTHER ONE THERE.\nTRY ANOTHER COORDINATE')
-
-    """
-    print('\nChoose the coordinates of your firts ship (Length 5)')   
-    coo_sL5 = F.requestShipData(5)
-    sL5 = Ship(5,coo_sL5['Origin'],coo_sL5['End'],coo_sL5['Orientation'])
-    F.putShipOnBoard(mainBoard,sL5)
-    """
-
+    """player1.attackShip(player1_AttackBoard,PC_Board,1)
+    F.drawBox(player1_AttackBoard)
+    F.drawBox(PC_Board)
+    player1.attackShip(player1_AttackBoard,PC_Board,1)
+    F.drawBox(player1_AttackBoard)
+    F.drawBox(PC_Board)"""
 else:
     print('The first player choose the positions')
