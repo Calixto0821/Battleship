@@ -6,6 +6,7 @@ from player import *
 
 if F.mainMenu():
     #F.clearConsole()
+    playerPC = player('PC')
     player1 = player(input('Type your name: '))
     print('You have four ships \n - Two submarines [3 spaces]\n - One Destroyer [4 spaces]\n - One Aircraft carrier [5 spaces]')
     player1_Board = F.createBoard(8,8) #Board[row][column] | [Y][X]
@@ -24,7 +25,8 @@ if F.mainMenu():
     sL3_2 = newPlayerShips[1]
     sL4 = newPlayerShips[2]
     sL5 = newPlayerShips[3]
-
+    player1.setUpShips(sL3_1,sL3_2,sL4,sL5)
+    
     #Set up on the board PC ships
     PC_sL3_1 = ship(3,[0,0],[0,0],'N')
     PC_sL3_2 = ship(3,[0,0],[0,0],'N')
@@ -35,6 +37,7 @@ if F.mainMenu():
     PC_sL3_2 = newPCShips[1]
     PC_sL4 = newPCShips[2]
     PC_sL5 = newPCShips[3]
+    playerPC.setUpShips(PC_sL3_1,PC_sL3_2,PC_sL4,PC_sL5)
     print('---------------------------------------------------------------------------------------')
     print('------------------------------------STAR THE GAME--------------------------------------')
     print('Enemy Board:')
@@ -46,13 +49,26 @@ if F.mainMenu():
     print('\nPC Bodys\n')
     print(PC_sL3_1.body,PC_sL3_2.body,PC_sL4.body,PC_sL5.body, sep='\n')
     
-    for i in range(3):
+    for ship in player1.floatingShips:
+        print('Player name: ',player1.name,'ship: ',ship.body,sep=' ')
+    for ship in playerPC.floatingShips:
+        print('Player name: ',playerPC.name,'ship: ',ship.body,sep=' ')
+
+    game = True
+    while game:
+        
+        player1.printData()
+        playerPC.printData()
         attack = player1.attackShip(player1_AttackBoard,PC_Board,1)
         if attack[0]:
             checkStatus([PC_sL3_1,PC_sL3_2,PC_sL4,PC_sL5],attack[1],attack[2])
+            game = playerPC.checkShips([PC_sL3_1,PC_sL3_2,PC_sL4,PC_sL5]) 
         F.drawBox(player1_AttackBoard)
         F.drawBox(PC_Board)
-
+    
+    print('\nPC Bodys\n')
+    print(PC_sL3_1.body,PC_sL3_2.body,PC_sL4.body,PC_sL5.body, sep='\n')
+    
     """player1.attackShip(player1_AttackBoard,PC_Board,1)
     F.drawBox(player1_AttackBoard)
     F.drawBox(PC_Board)

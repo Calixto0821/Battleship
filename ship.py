@@ -25,9 +25,14 @@ class ship():
 def checkStatus(shipList,coorX,coorY):
         for ship in shipList:
             if [coorX,coorY] in ship.body:
-                ship.body[ship.body.index([coorX,coorY])] = '*'
+                ship.body[ship.body.index([coorX,coorY])] = '*'              
                 cont = 0
-                for space in ship.body:
+                for space in ship.body:  
                     if space == '*':
                         cont += 1
-                ship.sunk = True if cont == ship.length else print('The ship still has spaces to attack')
+                if cont == ship.length:
+                    ship.sunk = True
+                    print('cont = {} ship lenght = {}'.format(cont,ship.length))
+                    print('The ship with length {} has been sunk'.format(ship.length))
+                else:
+                    print('The ship still has spaces to attack')
