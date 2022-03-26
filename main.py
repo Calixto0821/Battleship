@@ -20,11 +20,11 @@ if F.mainMenu():
     sL3_2 = ship(3,[0,0],[0,0],'N')
     sL4 = ship(4,[0,0],[0,0],'N')
     sL5 = ship(5,[0,0],[0,0],'N')
-    newPlayerShips = F.chooseShipsPositions([sL3_1,sL3_2,sL4,sL5], player1_Board,1)
-    sL3_1 = newPlayerShips[0]
-    sL3_2 = newPlayerShips[1]
-    sL4 = newPlayerShips[2]
-    sL5 = newPlayerShips[3]
+    playerShips = F.chooseShipsPositions([sL3_1,sL3_2,sL4,sL5], player1_Board,1)
+    sL3_1 = playerShips[0]
+    sL3_2 = playerShips[1]
+    sL4 = playerShips[2]
+    sL5 = playerShips[3]
     player1.setUpShips(sL3_1,sL3_2,sL4,sL5)
     
     #Set up on the board PC ships
@@ -32,48 +32,50 @@ if F.mainMenu():
     PC_sL3_2 = ship(3,[0,0],[0,0],'N')
     PC_sL4 = ship(4,[0,0],[0,0],'N')
     PC_sL5 = ship(5,[0,0],[0,0],'N')        
-    newPCShips = F.chooseShipsPositions([PC_sL3_1,PC_sL3_2,PC_sL4,PC_sL5], PC_Board,2)
-    PC_sL3_1 = newPCShips[0]
-    PC_sL3_2 = newPCShips[1]
-    PC_sL4 = newPCShips[2]
-    PC_sL5 = newPCShips[3]
+    PCShips = F.chooseShipsPositions([PC_sL3_1,PC_sL3_2,PC_sL4,PC_sL5], PC_Board,2)
+    PC_sL3_1 = PCShips[0]
+    PC_sL3_2 = PCShips[1]
+    PC_sL4 = PCShips[2]
+    PC_sL5 = PCShips[3]
     playerPC.setUpShips(PC_sL3_1,PC_sL3_2,PC_sL4,PC_sL5)
     print('---------------------------------------------------------------------------------------')
     print('------------------------------------STAR THE GAME--------------------------------------')
-    print('Enemy Board:')
-    F.drawBox(PC_Board) #Plot enemy board
-
-    print('\nPlayer Bodys\n')
-    print(sL3_1.body,sL3_2.body,sL4.body,sL5.body, sep='\n')
-    
-    print('\nPC Bodys\n')
-    print(PC_sL3_1.body,PC_sL3_2.body,PC_sL4.body,PC_sL5.body, sep='\n')
-    
-    for ship in player1.floatingShips:
-        print('Player name: ',player1.name,'ship: ',ship.body,sep=' ')
-    for ship in playerPC.floatingShips:
-        print('Player name: ',playerPC.name,'ship: ',ship.body,sep=' ')
-
+    F.drawBox(PC_Board)
     game = True
     while game:
+        #Player1's turn
+        print('{}\'S TURN\nThat is your Attack Board'.format(player1.name.upper()))
+        F.drawBox(player1_AttackBoard)       
+        playerAttack = player1.attackShip(player1_AttackBoard,PC_Board,1)
+        if playerAttack[0]:
+            print('You hit one ship!')
+            print(checkStatus([sL3_1,sL3_2,sL4,sL5],playerAttack[1],playerAttack[2]))
+            game = playerPC.checkShips(PCShips)
         
+        """    if not game:
+                break
+        else:
+            print('Oh no! You hit the water')
+        
+        #F.drawBox(player1_AttackBoard)
+        #PC's turn
+        print('{}\'S TURN'.format(playerPC.name))
+        PCAttack = playerPC.attackShip(PC_AttackBoard,player1_Board,2)
+        if PCAttack[0]:
+            print('PC hit one ship! :(')
+            checkStatus(PCShips,PCAttack[1],PCAttack[2])
+            game = player1.checkShips(playerShips)
+            if not game:
+                break
+        else:
+            print('PC hit the water...')
+        F.drawBox(player1_Board)"""
         player1.printData()
         playerPC.printData()
-        attack = player1.attackShip(player1_AttackBoard,PC_Board,1)
-        if attack[0]:
-            checkStatus([PC_sL3_1,PC_sL3_2,PC_sL4,PC_sL5],attack[1],attack[2])
-            game = playerPC.checkShips([PC_sL3_1,PC_sL3_2,PC_sL4,PC_sL5]) 
-        F.drawBox(player1_AttackBoard)
-        F.drawBox(PC_Board)
     
+    F.drawBox(PC_Board)
     print('\nPC Bodys\n')
     print(PC_sL3_1.body,PC_sL3_2.body,PC_sL4.body,PC_sL5.body, sep='\n')
-    
-    """player1.attackShip(player1_AttackBoard,PC_Board,1)
-    F.drawBox(player1_AttackBoard)
-    F.drawBox(PC_Board)
-    player1.attackShip(player1_AttackBoard,PC_Board,1)
-    F.drawBox(player1_AttackBoard)
-    F.drawBox(PC_Board)"""
+
 else:
     print('The first player choose the positions')

@@ -1,3 +1,4 @@
+import ship as s
 class ship():
     length  = 0
     origin = [0,0]
@@ -32,7 +33,7 @@ def checkStatus(shipList,coorX,coorY):
                         cont += 1
                 if cont == ship.length:
                     ship.sunk = True
-                    print('cont = {} ship lenght = {}'.format(cont,ship.length))
-                    print('The ship with length {} has been sunk'.format(ship.length))
+                    return 'The ship with length {} has been sunk'.format(ship.length)
                 else:
-                    print('The ship still has spaces to attack')
+                    return 'The ship still has spaces to attack'
+        print('Check Status done')

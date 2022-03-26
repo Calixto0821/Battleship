@@ -31,7 +31,7 @@ class player():
         else:
             print('Error with User Type [A1]')   
         self.shots += 1
-        if enemyBoard[attackY-1][attackX-1] != ' ':
+        if enemyBoard[attackY-1][attackX-1] != ' ' and enemyBoard[attackY-1][attackX-1] != 'o' and enemyBoard[attackY-1][attackX-1] != '*':
             enemyBoard[attackY-1][attackX-1] = '*'
             playerAttackBoard[attackY-1][attackX-1] = '*'
             return [True,attackX,attackY] #Return True because there was an impact
