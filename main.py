@@ -55,6 +55,7 @@ if F.mainMenu():
             print(checkStatus([PC_sL3_1,PC_sL3_2,PC_sL4,PC_sL5],playerAttack[1],playerAttack[2]))
             game = playerPC.checkShips(PCShips)
             if not game:
+                F.drawBox(player1_AttackBoard)
                 print('{}, YOU ARE THE WINNER!! CONGRATULATIONS!!'.format(player1.name))
                 break
         else:
@@ -65,6 +66,7 @@ if F.mainMenu():
         print('{}\'S TURN'.format(playerPC.name))
         PCAttack = playerPC.attackShip(PC_AttackBoard,player1_Board,2)
         if PCAttack[0]:
+            print('PC shot in [{X}][{Y}]'.format(X=PCAttack[1],Y=PCAttack[2]))
             print('PC hit one ship! :(')
             checkStatus([sL3_1,sL3_2,sL4,sL5],PCAttack[1],PCAttack[2])
             game = player1.checkShips(playerShips)

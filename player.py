@@ -21,17 +21,25 @@ class player():
         self.floatingShips = shipsList.copy()
 
     def attackShip(self, playerAttackBoard,enemyBoard,user):  
-        if user == 1:
-            print('Choose the coordinates of your attack')
-            attackX = int(input('Coordinate X:'))
-            attackY = int(input('Coordinate Y:'))
-        elif user == 2:
-            attackX = random.randint(1,8)
-            attackY = random.randint(1,8)
-        else:
-            print('Error with User Type [A1]')   
+        validCoors = False
+        while not validCoors:
+            if user == 1:
+                print('Choose the coordinates of your attack')
+                attackX = int(input('Coordinate X:'))
+                attackY = int(input('Coordinate Y:'))               
+            elif user == 2:
+                attackX = random.randint(1,8)
+                attackY = random.randint(1,8)
+            else:
+                print('Error with User Type [A1]') 
+            
+            if enemyBoard[attackY-1][attackX-1] != 'o' and enemyBoard[attackY-1][attackX-1] != '*':
+                validCoors = True
+            else:
+                print('You chose that space before, choose another one different')  
         self.shots += 1
-        if enemyBoard[attackY-1][attackX-1] != ' ' and enemyBoard[attackY-1][attackX-1] != 'o' and enemyBoard[attackY-1][attackX-1] != '*':
+        
+        if enemyBoard[attackY-1][attackX-1] != ' ':
             enemyBoard[attackY-1][attackX-1] = '*'
             playerAttackBoard[attackY-1][attackX-1] = '*'
             return [True,attackX,attackY] #Return True because there was an impact
