@@ -185,6 +185,9 @@ def validSpace(board,ship, user):
 def chooseShipsPositions(shipsList, board, user):
     newShips = []
     for new_ship in shipsList:
+        clearConsole()
+        if user == 1:
+            drawBox(board)
         valid_ship = False
         while not valid_ship:
             if user == 1:
@@ -193,9 +196,7 @@ def chooseShipsPositions(shipsList, board, user):
             new_ship = S.ship(new_ship.length,coo_ship['Origin'],coo_ship['End'],coo_ship['Orientation'])            
             if validSpace(board,new_ship, user):
                 putShipOnBoard(board,new_ship)
-                newShips.append(new_ship)
-                if user == 1:
-                    drawBox(board)           
+                newShips.append(new_ship)        
                 valid_ship = True
             else:
                 if user == 1:

@@ -2,10 +2,10 @@ from tkinter import N
 import functions as F
 from ship import *
 from player import *
-#F.clearConsole()
+F.clearConsole()
 
 if F.mainMenu():
-    #F.clearConsole()
+    F.clearConsole()
     playerPC = player('PC')
     player1 = player(input('Type your name: '))
     print('You have four ships \n - Two submarines [3 spaces]\n - One Destroyer [4 spaces]\n - One Aircraft carrier [5 spaces]')
@@ -38,16 +38,15 @@ if F.mainMenu():
     PC_sL4 = PCShips[2]
     PC_sL5 = PCShips[3]
     playerPC.setUpShips(PC_sL3_1,PC_sL3_2,PC_sL4,PC_sL5)
+    
+    F.drawBox(player1_Board)
+    print('These are  your ships\nAre you ready for batte?')
     print('---------------------------------------------------------------------------------------')
     print('------------------------------------STAR THE GAME--------------------------------------')
-    
-    print('\nPC Bodys\n')
-    print(PC_sL3_1.body,PC_sL3_2.body,PC_sL4.body,PC_sL5.body, sep='\n')
-    
     game = True
     while game:
         #Player1's turn
-        print('-----------------------------------------------------------------------------------')
+        print('---------------------------------------------------------------------------------------')
         print('{}\'S TURN\nThat is your Attack Board'.format(player1.name.upper()))
         F.drawBox(player1_AttackBoard)       
         playerAttack = player1.attackShip(player1_AttackBoard,PC_Board,1)
@@ -55,28 +54,26 @@ if F.mainMenu():
             print('You hit one ship!')
             print(checkStatus([PC_sL3_1,PC_sL3_2,PC_sL4,PC_sL5],playerAttack[1],playerAttack[2]))
             game = playerPC.checkShips(PCShips)
+            if not game:
+                print('{}, YOU ARE THE WINNER!! CONGRATULATIONS!!'.format(player1.name))
+                break
         else:
             print('Oh no! You hit the water')
-        print('-----------------------------------------------------------------------------------')
-
+        print('---------------------------------------------------------------------------------------')
         #PC's turn
-        print('-----------------------------------------------------------------------------------')        
+        print('---------------------------------------------------------------------------------------')       
         print('{}\'S TURN'.format(playerPC.name))
         PCAttack = playerPC.attackShip(PC_AttackBoard,player1_Board,2)
         if PCAttack[0]:
             print('PC hit one ship! :(')
             checkStatus([sL3_1,sL3_2,sL4,sL5],PCAttack[1],PCAttack[2])
             game = player1.checkShips(playerShips)
+            if not game:
+                print('OH NO, THE PC WON YOU :(')
+                break
         else:
             print('PC hit the water...')
         F.drawBox(player1_Board)
-        print('-----------------------------------------------------------------------------------')
-        player1.printData()
-        playerPC.printData()
-    
-    F.drawBox(PC_Board)
-    print('\nPC Bodys\n')
-    print(PC_sL3_1.body,PC_sL3_2.body,PC_sL4.body,PC_sL5.body, sep='\n')
-
+        print('---------------------------------------------------------------------------------------')
 else:
-    print('The first player choose the positions')
+    print('We\'re still working in this part of the game')
