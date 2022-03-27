@@ -13,12 +13,14 @@ def title():
     print('88888888P"   `"8bbdP"Y8    "Y888    "Y888  88   `"Ybbd8"\'  `"YbbdP"\'  88       88  88  88`YbbdP"\'   ')
     print('                                                                                       88           ')
     print('                                                                                       88           ')
+
 def clearConsole():
     command = 'clear'
     if os.name in ('nt', 'dos'):  # If Machine is running on Windows, use cls
         command = 'cls'
     os.system(command)
     title()
+
 def createBoard(rows, columns):
     cont = 1
     board = []
@@ -28,6 +30,7 @@ def createBoard(rows, columns):
                 board[r].append(' ')
                 cont += 1
     return board
+
 def drawBox(board):   
     print("     1   2   3   4   5   6   7   8  ")
     print("   +---+---+---+---+---+---+---+---+")
@@ -46,6 +49,7 @@ def drawBox(board):
         c8=row[7]))
         print("   +---+---+---+---+---+---+---+---+")
         currentRow += 1
+
 def mainMenu():
     print('1. Plyer vs PC')#Return True
     print('2. Multiplayer')#Return False
@@ -62,6 +66,7 @@ def mainMenu():
             elif answer == 2:
                 validAnswer = True
                 return False           
+
 def requestShipData(shipLength, user):
     if user == 1:
         print('Where is the origin from you first ship')
@@ -157,6 +162,7 @@ def putShipOnBoard(board,ship):
             #ship.body.append([i,ship.origin[1]])
     else:
         print('Error wwith the ship Orientation (putShipOnBoard)')
+
 def validSpace(board,ship, user):
     if ship.orientation == 'V':
         itV = 1 if ship.origin[1]<ship.end[1] else -1
@@ -182,6 +188,7 @@ def validSpace(board,ship, user):
         return True
     else:
         print('Error with the ship Orientation (putShipOnBoard)')
+
 def chooseShipsPositions(shipsList, board, user):
     newShips = []
     for new_ship in shipsList:

@@ -1,4 +1,3 @@
-import ship as s
 class ship():
     length  = 0
     origin = [0,0]
@@ -23,6 +22,15 @@ class ship():
                 cooBody.append([i,self.origin[1]])
         self.body = cooBody.copy()
 
+    def printData(self):
+        print('Ship Lenght: ',self.length)
+        print('Ship Body: ',self.body)
+        print('Ship Orientation: ',self.orientation)
+        if not self.sunk:
+            print('The ship is still floating')
+        else:
+            print('The is sunk')
+
 def checkStatus(shipList,coorX,coorY):
         for ship in shipList:
             if [coorX,coorY] in ship.body:
@@ -37,4 +45,3 @@ def checkStatus(shipList,coorX,coorY):
                 else:
                     return 'The ship still has spaces to attack'
         print('Check Status done')
-

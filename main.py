@@ -1,4 +1,3 @@
-from tkinter import N
 import functions as F
 from ship import *
 from player import *
@@ -57,6 +56,8 @@ if F.mainMenu():
             if not game:
                 F.drawBox(player1_AttackBoard)
                 print('{}, YOU ARE THE WINNER!! CONGRATULATIONS!!'.format(player1.name))
+                print('---------------------------------------------------------------------------------------')
+                winner = player1
                 break
         else:
             print('Oh no! You hit the water')
@@ -72,10 +73,16 @@ if F.mainMenu():
             game = player1.checkShips(playerShips)
             if not game:
                 print('OH NO, THE PC WON YOU :(')
+                print('---------------------------------------------------------------------------------------')
+                winner = playerPC
                 break
         else:
             print('PC hit the water...')
         F.drawBox(player1_Board)
         print('---------------------------------------------------------------------------------------')
+    print('--------------------------------------STATISTICS---------------------------------------')
+    player1.printStatistics()
+    print('---------------------------------------------------------------------------------------')
+    playerPC.printStatistics()
 else:
     print('We\'re still working in this part of the game')
