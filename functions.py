@@ -68,11 +68,11 @@ def mainMenu():
                 return False           
 
 def requestShipData(shipLength, user):
-    if user == 1:
+    if user.type == 1:
         print('Where is the origin from you first ship')
         originX = int(input('Coordinate X:'))
         originY = int(input('Coordinate Y:'))
-    elif user == 2:
+    elif user.type == 2:
         originX = random.randint (1,8)
         originY = random.randint (1,8)
     else:
@@ -80,12 +80,12 @@ def requestShipData(shipLength, user):
 
     validOrientation = False
     while not validOrientation:
-        if user == 1:
+        if user.type == 1:
             orientation = input('How do you want to orient this ship? [V] Vertical|[H] Horizontal: ')
             answer = orientation.upper()
             if answer == 'V' or answer == 'H':
                 validOrientation = True
-        elif user == 2:
+        elif user.type == 2:
             n_letter = random.randint(1,2)
             if n_letter == 1:
                 orientation = 'V'
@@ -100,12 +100,12 @@ def requestShipData(shipLength, user):
     if orientation.upper() == 'V':
         endX = originX
         if originY-df>=1 and originY+df<=8:
-            if user == 1:
+            if user.type == 1:
                 print('[1]. Your ship could end in X:{x} Y:{y}'.format(x=endX,y=originY-df))
                 print('[2]. Your ship could end in X:{x} Y:{y}'.format(x=endX,y=originY+df))
             validOption = False
             while not validOption:
-                option = int(input('Choose one between [1] and [2]: ')) if user == 1 else random.randint(1,2)
+                option = int(input('Choose one between [1] and [2]: ')) if user.type == 1 else random.randint(1,2)
                 if option == 1:
                     endY = originY-df
                     validOption = True
@@ -113,17 +113,17 @@ def requestShipData(shipLength, user):
                     endY = originY+df
                     validOption = True
         elif originY-df>=1:
-            if user == 1:
+            if user.type == 1:
                 print('Your ship only can end in X:{x} Y:{y}'.format(x=endX,y=originY-df))
             endY = originY-df
         elif originY+df<=8:
-            if user == 1:
+            if user.type == 1:
                 print('Your ship only can end in X:{x} Y:{y}'.format(x=endX,y=originY+df))
             endY = originY+df
     elif orientation.upper() == 'H':
         endY = originY
         if originX-(shipLength-1)>=1 and originX+df<=8:
-            if user == 1:
+            if user.type == 1:
                 print('[1]. Your ship could end in X:{x} Y:{y}'.format(x=originX-df,y=endY))
                 print('[2]. Your ship could end in X:{x} Y:{y}'.format(x=originX+df,y=endY))
             validOption = False
@@ -136,14 +136,14 @@ def requestShipData(shipLength, user):
                     endX = originX+df
                     validOption = True
         elif originX-df>=1:
-            if user == 1:
+            if user.type == 1:
                 print('Your ship only can end in X:{x} Y:{y}'.format(x=originX-df,y=endY))
             endX = originX-df
         elif originX+df<=8:
-            if user == 1: 
+            if user.type == 1: 
                 print('Your ship only can end in X:{x} Y:{y}'.format(x=originX+df,y=endY))
             endX = originX+df
-    if user == 1:
+    if user.type == 1:
         print('The final coordinate is\nOrigin: [{xo},{yo}]\nEnd: [{xe},{ye}]'.format(xo=originX,yo=originY,xe=endX,ye=endY))
     cooOrigin = [originX,originY] #List with the coordinates [x,y]
     cooEnd = [endX,endY] #List with the coordinates [x,y]
@@ -168,22 +168,22 @@ def validSpace(board,ship, user):
         itV = 1 if ship.origin[1]<ship.end[1] else -1
         for i in range(ship.origin[1],ship.end[1]+(itV), itV):
             if board[i-1][ship.origin[0]-1] != ' ':
-                if user == 1:
+                if user.type == 1:
                     print('In the square [{}][{}] there is something'.format(ship.origin[1]+2,i))
                 return False
             else:
-                if user == 1:
+                if user.type == 1:
                     print('The square [{}][{}] is free'.format(ship.origin[1],i))
         return True
     elif ship.orientation == 'H':
         itH = 1 if ship.origin[0]<ship.end[0] else -1
         for i in range(ship.origin[0],ship.end[0]+(itH), itH):
             if board[ship.origin[1]-1][i-1] != ' ':
-                if user == 1:
+                if user.type == 1:
                     print('In the square [{}][{}] there is something'.format(i,ship.origin[1]))
                 return False
             else:
-                if user == 1:
+                if user.type == 1:
                     print('The square [{}][{}] is free'.format(i,ship.origin[1]))
         return True
     else:
@@ -193,11 +193,12 @@ def chooseShipsPositions(shipsList, board, user):
     newShips = []
     for new_ship in shipsList:
         clearConsole()
-        if user == 1:
+        if user.type == 1:
+            print('{}\'S FLEET\n'.format(user.name.upper()))
             drawBox(board)
         valid_ship = False
         while not valid_ship:
-            if user == 1:
+            if user.type == 1:              
                 print('\nChoose the coordinates of your ship (Length {})'.format(new_ship.length))
             coo_ship = requestShipData(new_ship.length, user)
             new_ship = S.ship(new_ship.length,coo_ship['Origin'],coo_ship['End'],coo_ship['Orientation'])            
@@ -206,6 +207,7 @@ def chooseShipsPositions(shipsList, board, user):
                 newShips.append(new_ship)        
                 valid_ship = True
             else:
-                if user == 1:
+                if user.type == 1:
                     print('\nYOU WON\'T BE ABLE TO PUT YOUR SHIP THERE, BECAUSE ALREADY THERE IS ANOTHER ONE THERE.\nTRY ANOTHER COORDINATE') 
+    os.system("pause")
     return newShips

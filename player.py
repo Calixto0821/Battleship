@@ -1,14 +1,16 @@
 import random
 class player():
     name = ''
+    type = 0
     shots = 0
     successfulShots = 0
     missedShots = 0
     floatingShips =[]
     sunkenShips =[]
 
-    def __init__(self, playerName):
+    def __init__(self, playerName, type):
         self.name = playerName
+        self.type = type
     
     def printData(self):
         print('Data Player {}'.format(self.name))
@@ -35,11 +37,11 @@ class player():
     def attackShip(self, playerAttackBoard,enemyBoard,user):  
         validCoors = False
         while not validCoors:
-            if user == 1:
+            if user.type == 1:
                 print('Choose the coordinates of your attack')
                 attackX = int(input('Coordinate X:'))
                 attackY = int(input('Coordinate Y:'))               
-            elif user == 2:
+            elif user.type == 2:
                 attackX = random.randint(1,8)
                 attackY = random.randint(1,8)
             else:
