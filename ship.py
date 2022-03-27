@@ -37,3 +37,4 @@ def checkStatus(shipList,coorX,coorY):
                 else:
                     return 'The ship still has spaces to attack'
         print('Check Status done')
+

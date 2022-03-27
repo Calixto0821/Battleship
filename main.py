@@ -40,36 +40,37 @@ if F.mainMenu():
     playerPC.setUpShips(PC_sL3_1,PC_sL3_2,PC_sL4,PC_sL5)
     print('---------------------------------------------------------------------------------------')
     print('------------------------------------STAR THE GAME--------------------------------------')
-    F.drawBox(PC_Board)
+    
+    print('\nPC Bodys\n')
+    print(PC_sL3_1.body,PC_sL3_2.body,PC_sL4.body,PC_sL5.body, sep='\n')
+    
     game = True
     while game:
         #Player1's turn
+        print('-----------------------------------------------------------------------------------')
         print('{}\'S TURN\nThat is your Attack Board'.format(player1.name.upper()))
         F.drawBox(player1_AttackBoard)       
         playerAttack = player1.attackShip(player1_AttackBoard,PC_Board,1)
         if playerAttack[0]:
             print('You hit one ship!')
-            print(checkStatus([sL3_1,sL3_2,sL4,sL5],playerAttack[1],playerAttack[2]))
+            print(checkStatus([PC_sL3_1,PC_sL3_2,PC_sL4,PC_sL5],playerAttack[1],playerAttack[2]))
             game = playerPC.checkShips(PCShips)
-        
-        """    if not game:
-                break
         else:
             print('Oh no! You hit the water')
-        
-        #F.drawBox(player1_AttackBoard)
+        print('-----------------------------------------------------------------------------------')
+
         #PC's turn
+        print('-----------------------------------------------------------------------------------')        
         print('{}\'S TURN'.format(playerPC.name))
         PCAttack = playerPC.attackShip(PC_AttackBoard,player1_Board,2)
         if PCAttack[0]:
             print('PC hit one ship! :(')
-            checkStatus(PCShips,PCAttack[1],PCAttack[2])
+            checkStatus([sL3_1,sL3_2,sL4,sL5],PCAttack[1],PCAttack[2])
             game = player1.checkShips(playerShips)
-            if not game:
-                break
         else:
             print('PC hit the water...')
-        F.drawBox(player1_Board)"""
+        F.drawBox(player1_Board)
+        print('-----------------------------------------------------------------------------------')
         player1.printData()
         playerPC.printData()
     

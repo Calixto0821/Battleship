@@ -45,8 +45,7 @@ class player():
         for ship in shipList:
             if ship.sunk and (ship in self.floatingShips)  :
                 self.floatingShips.remove(ship)
-                self.sunkenShips.append(ship)
-                
+                self.sunkenShips.append(ship)                
         if len(self.sunkenShips) == 4:
             return False #Game Over
         elif len(self.floatingShips) > 0:
