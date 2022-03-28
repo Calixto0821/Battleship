@@ -41,6 +41,8 @@ if F.mainMenu():
     
     F.drawBox(player1_Board)
     print('These are  your ships\nAre you ready for batte?')
+    os.system("pause")
+    F.clearConsole()
     print('---------------------------------------------------------------------------------------')
     print('------------------------------------STAR THE GAME--------------------------------------')
     game = True
@@ -49,7 +51,7 @@ if F.mainMenu():
         print('---------------------------------------------------------------------------------------')
         print('{}\'S TURN\nThat is your Attack Board'.format(player1.name.upper()))
         F.drawBox(player1_AttackBoard)       
-        playerAttack = player1.attackShip(player1_AttackBoard,PC_Board,1)
+        playerAttack = player1.attackShip(player1_AttackBoard,PC_Board,player1)
         if playerAttack[0]:
             print('You hit one ship!')
             print(checkStatus([PC_sL3_1,PC_sL3_2,PC_sL4,PC_sL5],playerAttack[1],playerAttack[2]))
@@ -63,10 +65,12 @@ if F.mainMenu():
         else:
             print('Oh no! You hit the water')
         print('---------------------------------------------------------------------------------------')
+        os.system("pause")
+        F.clearConsole()
         #PC's turn
         print('---------------------------------------------------------------------------------------')       
         print('{}\'S TURN'.format(playerPC.name))
-        PCAttack = playerPC.attackShip(PC_AttackBoard,player1_Board,2)
+        PCAttack = playerPC.attackShip(PC_AttackBoard,player1_Board,playerPC)
         if PCAttack[0]:
             print('PC shot in [{X}][{Y}]'.format(X=PCAttack[1],Y=PCAttack[2]))
             print('PC hit one ship! :(')
@@ -81,6 +85,9 @@ if F.mainMenu():
             print('PC hit the water...')
         F.drawBox(player1_Board)
         print('---------------------------------------------------------------------------------------')
+        os.system("pause")
+        F.clearConsole()
+
     print('--------------------------------------STATISTICS---------------------------------------')
     player1.printStatistics()
     print('---------------------------------------------------------------------------------------')

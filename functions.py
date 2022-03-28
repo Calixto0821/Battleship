@@ -209,5 +209,6 @@ def chooseShipsPositions(shipsList, board, user):
             else:
                 if user.type == 1:
                     print('\nYOU WON\'T BE ABLE TO PUT YOUR SHIP THERE, BECAUSE ALREADY THERE IS ANOTHER ONE THERE.\nTRY ANOTHER COORDINATE') 
-    os.system("pause")
+    if user.type == 1:
+        os.system("pause")
     return newShips
