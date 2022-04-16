@@ -168,23 +168,23 @@ def validSpace(board,ship, user):
         itV = 1 if ship.origin[1]<ship.end[1] else -1
         for i in range(ship.origin[1],ship.end[1]+(itV), itV):
             if board[i-1][ship.origin[0]-1] != ' ':
-                if user.type == 1:
-                    print('In the square [{}][{}] there is something'.format(ship.origin[1]+2,i))
+                #if user.type == 1:
+                    #print('In the square [{}][{}] there is something'.format(ship.origin[1]+2,i))
                 return False
-            else:
-                if user.type == 1:
-                    print('The square [{}][{}] is free'.format(ship.origin[1],i))
+            #else:
+                #if user.type == 1:
+                    #print('The square [{}][{}] is free'.format(ship.origin[1],i))
         return True
     elif ship.orientation == 'H':
         itH = 1 if ship.origin[0]<ship.end[0] else -1
         for i in range(ship.origin[0],ship.end[0]+(itH), itH):
             if board[ship.origin[1]-1][i-1] != ' ':
-                if user.type == 1:
-                    print('In the square [{}][{}] there is something'.format(i,ship.origin[1]))
+                #if user.type == 1:
+                #    print('In the square [{}][{}] there is something'.format(i,ship.origin[1]))
                 return False
-            else:
-                if user.type == 1:
-                    print('The square [{}][{}] is free'.format(i,ship.origin[1]))
+            #else:
+                #if user.type == 1:
+                    #print('The square [{}][{}] is free'.format(i,ship.origin[1]))
         return True
     else:
         print('Error with the ship Orientation (putShipOnBoard)')

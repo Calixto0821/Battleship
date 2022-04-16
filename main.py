@@ -4,188 +4,142 @@ from player import *
 import os
 F.clearConsole()
 
-if F.mainMenu():
-    F.clearConsole()
-    playerPC = player('PC',2)
-    player1 = player(input('Type your name: '),1)
-    print('You have four ships \n - Two submarines [3 spaces]\n - One Destroyer [4 spaces]\n - One Aircraft carrier [5 spaces]')
-    player1_Board = F.createBoard(8,8) #Board[row][column] | [Y][X]
-    player1_AttackBoard = F.createBoard(8,8) #
-    PC_Board = F.createBoard(8,8) #Board[row][column] | [Y][X]
-    PC_AttackBoard = F.createBoard(8,8)
-    F.drawBox(player1_Board)
+gameMode = F.mainMenu()
+player1 = player(input('Type your name: '),1)
+print('You have four ships \n - Two submarines [3 spaces]\n - One Destroyer [4 spaces]\n - One Aircraft carrier [5 spaces]')
+player1_Board = F.createBoard(8,8) #Board[row][column] | [Y][X]
+player1_AttackBoard = F.createBoard(8,8) #
+F.drawBox(player1_Board)
+#Set up on the board Player ships
+player1_sL3_1 = ship(3,[0,0],[0,0],'N')
+player1_sL3_2 = ship(3,[0,0],[0,0],'N')
+player1_sL4 = ship(4,[0,0],[0,0],'N')
+player1_sL5 = ship(5,[0,0],[0,0],'N')
+player1Ships = F.chooseShipsPositions([player1_sL3_1,player1_sL3_2,player1_sL4,player1_sL5], player1_Board,player1)
+player1_sL3_1 = player1Ships[0]
+player1_sL3_2 = player1Ships[1]
+player1_sL4 = player1Ships[2]
+player1_sL5 = player1Ships[3]
+player1.setUpShips(player1_sL3_1,player1_sL3_2,player1_sL4,player1_sL5)
 
-    #Set up on the board Player ships
-    sL3_1 = ship(3,[0,0],[0,0],'N')
-    sL3_2 = ship(3,[0,0],[0,0],'N')
-    sL4 = ship(4,[0,0],[0,0],'N')
-    sL5 = ship(5,[0,0],[0,0],'N')
-    playerShips = F.chooseShipsPositions([sL3_1,sL3_2,sL4,sL5], player1_Board,player1)
-    sL3_1 = playerShips[0]
-    sL3_2 = playerShips[1]
-    sL4 = playerShips[2]
-    sL5 = playerShips[3]
-    player1.setUpShips(sL3_1,sL3_2,sL4,sL5)
+if gameMode:
+    F.clearConsole()
+    playerEnemy = player('PC',2)
+    Enemy_Board = F.createBoard(8,8)
+    Enemy_AttackBoard = F.createBoard(8,8)
+else:
+    F.clearConsole()
+    playerEnemy = player(input('Second player, type your name: '),1)
+    print('Ecah player has four ships \n - Two submarines [3 spaces]\n - One Destroyer [4 spaces]\n - One Aircraft carrier [5 spaces]')
+    Enemy_Board = F.createBoard(8,8) #Board[row][column] | [Y][X]
+    Enemy_AttackBoard = F.createBoard(8,8)
+
+#Set up on the board PC ships
+enemy_sL3_1 = ship(3,[0,0],[0,0],'N')
+enemy_sL3_2 = ship(3,[0,0],[0,0],'N')
+enemy_sL4 = ship(4,[0,0],[0,0],'N')
+enemy_sL5 = ship(5,[0,0],[0,0],'N')        
+enemyShips = F.chooseShipsPositions([enemy_sL3_1,enemy_sL3_2,enemy_sL4,enemy_sL5], Enemy_Board,playerEnemy)
+enemy_sL3_1 = enemyShips[0]
+enemy_sL3_2 = enemyShips[1]
+enemy_sL4 = enemyShips[2]
+enemy_sL5 = enemyShips[3]
+playerEnemy.setUpShips(enemy_sL3_1,enemy_sL3_2,enemy_sL4,enemy_sL5)
     
-    #Set up on the board PC ships
-    PC_sL3_1 = ship(3,[0,0],[0,0],'N')
-    PC_sL3_2 = ship(3,[0,0],[0,0],'N')
-    PC_sL4 = ship(4,[0,0],[0,0],'N')
-    PC_sL5 = ship(5,[0,0],[0,0],'N')        
-    PCShips = F.chooseShipsPositions([PC_sL3_1,PC_sL3_2,PC_sL4,PC_sL5], PC_Board,playerPC)
-    PC_sL3_1 = PCShips[0]
-    PC_sL3_2 = PCShips[1]
-    PC_sL4 = PCShips[2]
-    PC_sL5 = PCShips[3]
-    playerPC.setUpShips(PC_sL3_1,PC_sL3_2,PC_sL4,PC_sL5)
-    
+if gameMode:
     F.drawBox(player1_Board)
     print('These are  your ships\nAre you ready for batte?')
     os.system("pause")
-    F.clearConsole()
+F.clearConsole()
+    
+    
+print('---------------------------------------------------------------------------------------')
+print('------------------------------------STAR THE GAME--------------------------------------')
+game = True
+while game:
+    #Player1's turn
     print('---------------------------------------------------------------------------------------')
-    print('------------------------------------STAR THE GAME--------------------------------------')
-    game = True
-    while game:
-        #Player1's turn
-        print('---------------------------------------------------------------------------------------')
-        print('{}\'S TURN\nThat is your Attack Board'.format(player1.name.upper()))
-        F.drawBox(player1_AttackBoard)       
-        playerAttack = player1.attackShip(player1_AttackBoard,PC_Board,player1)
-        if playerAttack[0]:
-            print('You hit one ship!')
-            print(checkStatus([PC_sL3_1,PC_sL3_2,PC_sL4,PC_sL5],playerAttack[1],playerAttack[2]))
-            game = playerPC.checkShips(PCShips)
-            if not game:
-                F.drawBox(player1_AttackBoard)
-                print('{}, YOU ARE THE WINNER!! CONGRATULATIONS!!'.format(player1.name))
-                print('---------------------------------------------------------------------------------------')
-                winner = player1
-                break
-        else:
-            print('Oh no! You hit the water')
-        print('---------------------------------------------------------------------------------------')
-        os.system("pause")
-        F.clearConsole()
-        #PC's turn
-        print('---------------------------------------------------------------------------------------')       
-        print('{}\'S TURN'.format(playerPC.name))
-        PCAttack = playerPC.attackShip(PC_AttackBoard,player1_Board,playerPC)
-        if PCAttack[0]:
-            print('PC shot in [{X}][{Y}]'.format(X=PCAttack[1],Y=PCAttack[2]))
+    print('{}\'S TURN\nThat is your Attack Board'.format(player1.name.upper()))
+    F.drawBox(player1_AttackBoard)       
+    playerAttack = player1.attackShip(player1_AttackBoard,Enemy_Board,player1)
+    if playerAttack[0]:
+        print('{} hit one ship!'.format(player1.name.capitalize()))
+        print(checkStatus(enemyShips,playerAttack[1],playerAttack[2]))
+        game = playerEnemy.checkShips(enemyShips)
+        if not game:
+            F.clearConsole()
+            F.drawBox(player1_AttackBoard)
+            print('{}, ARE THE WINNER!! CONGRATULATIONS!!'.format(player1.name))
+            print('---------------------------------------------------------------------------------------')
+            winner = player1
+            break
+    else:
+        print('Oh no! You hit the water')
+    print('---------------------------------------------------------------------------------------')
+    os.system("pause")
+    F.clearConsole()
+
+    #Enemy's turn
+    print('---------------------------------------------------------------------------------------')       
+    print('{}\'S TURN'.format(playerEnemy.name.upper()))
+    if gameMode == False:
+        F.drawBox(Enemy_AttackBoard)
+    enemyAttack = playerEnemy.attackShip(Enemy_AttackBoard,player1_Board,playerEnemy)
+    if enemyAttack[0]:
+        if playerEnemy.type == 2:
+            F.drawBox(player1_Board)
+            print('PC shot in [{X}][{Y}]'.format(X=enemyAttack[1],Y=enemyAttack[2]))
             print('PC hit one ship! :(')
-            checkStatus([sL3_1,sL3_2,sL4,sL5],PCAttack[1],PCAttack[2])
-            game = player1.checkShips(playerShips)
-            if not game:
+        elif playerEnemy.type ==  1:
+            print('{} hit one ship!'.format(playerEnemy.name.capitalize()))
+        print(checkStatus(player1Ships,enemyAttack[1],enemyAttack[2]))
+        game = player1.checkShips(player1Ships)
+        if not game:
+            F.clearConsole()
+            F.drawBox(Enemy_AttackBoard)
+            if playerEnemy.type == 2:
                 print('OH NO, THE PC WON YOU :(')
-                print('---------------------------------------------------------------------------------------')
-                winner = playerPC
-                break
-        else:
-            print('PC hit the water...')
-        F.drawBox(player1_Board)
-        print('---------------------------------------------------------------------------------------')
-        os.system("pause")
-        F.clearConsole()
-
-    print('--------------------------------------STATISTICS---------------------------------------')
-    player1.printStatistics()
-    print('---------------------------------------------------------------------------------------')
-    playerPC.printStatistics()
-else:
-    F.clearConsole()
-    player1 = player(input('First player, type your name: '),1)
-    F.clearConsole()
-    player2 = player(input('Second player, type your name: '),1)
-    print('Ecah player has four ships \n - Two submarines [3 spaces]\n - One Destroyer [4 spaces]\n - One Aircraft carrier [5 spaces]')
-    player1_Board = F.createBoard(8,8) #Board[row][column] | [Y][X]
-    player1_AttackBoard = F.createBoard(8,8) #
-    player2_Board = F.createBoard(8,8) #Board[row][column] | [Y][X]
-    player2_AttackBoard = F.createBoard(8,8)
-
-    #Set up on the board Player ships
-    player1_sL3_1 = ship(3,[0,0],[0,0],'N')
-    player1_sL3_2 = ship(3,[0,0],[0,0],'N')
-    player1_sL4 = ship(4,[0,0],[0,0],'N')
-    player1_sL5 = ship(5,[0,0],[0,0],'N')
-    F.drawBox(player1_Board)
-    player1Ships = F.chooseShipsPositions([player1_sL3_1,player1_sL3_2,player1_sL4,player1_sL5], player1_Board,player1)
-    player1_sL3_1 = player1Ships[0]
-    player1_sL3_2 = player1Ships[1]
-    player1_sL4 = player1Ships[2]
-    player1_sL5 = player1Ships[3]
-    player1.setUpShips(player1_sL3_1,player1_sL3_2,player1_sL4,player1_sL5)
+            elif playerEnemy.type ==1:    
+                print('{}, YOU ARE THE WINNER!! CONGRATULATIONS!!'.format(playerEnemy.name))
+            print('---------------------------------------------------------------------------------------')
+            winner = playerEnemy
+            break
+    else:
+        if playerEnemy.type == 2:
+            print('PC shot in [{X}][{Y}]'.format(X=enemyAttack[1],Y=enemyAttack[2]))
+            F.drawBox(player1_Board)
+        print('{} hit the water...'.format(playerEnemy.name.capitalize()))
     
-    #Set up on the board PC ships
-    player2_sL3_1 = ship(3,[0,0],[0,0],'N')
-    player2_sL3_2 = ship(3,[0,0],[0,0],'N')
-    player2_sL4 = ship(4,[0,0],[0,0],'N')
-    player2_sL5 = ship(5,[0,0],[0,0],'N')        
-    F.drawBox(player2_Board)
-    player2Ships = F.chooseShipsPositions([player2_sL3_1,player2_sL3_2,player2_sL4,player2_sL5], player2_Board,player2)
-    player2_sL3_1 = player2Ships[0]
-    player2_sL3_2 = player2Ships[1]
-    player2_sL4 = player2Ships[2]
-    player2_sL5 = player2Ships[3]
-    player2.setUpShips(player2_sL3_1,player2_sL3_2,player2_sL4,player2_sL5)
     
+    os.system("pause")
     F.clearConsole()
     print('---------------------------------------------------------------------------------------')
-    print('------------------------------------STAR THE GAME--------------------------------------')
-    game = True
-    while game:
-        #Player1's turn
-        print('---------------------------------------------------------------------------------------')
-        print('{}\'S TURN\nThat is your Attack Board'.format(player1.name.upper()))
-        F.drawBox(player1_AttackBoard)       
-        playerAttack = player1.attackShip(player1_AttackBoard,player2_Board,player1)
-        if playerAttack[0]:
-            print('{} hit one ship!'.format(player1.name.capitalize()))
-            print(checkStatus([player2_sL3_1,player2_sL3_2,player2_sL4,player2_sL5],playerAttack[1],playerAttack[2]))
-            game = player2.checkShips(player2Ships)
-            if not game:
-                F.drawBox(player1_AttackBoard)
-                print('{}, YOU ARE THE WINNER!! CONGRATULATIONS!!'.format(player1.name))
-                print('---------------------------------------------------------------------------------------')
-                winner = player1
-                break
-        else:
-            print('Oh no! You hit the water')
-        print('---------------------------------------------------------------------------------------')
-        os.system("pause")
-        F.clearConsole()
-        #Player2's turn
-        print('---------------------------------------------------------------------------------------')       
-        print('{}\'S TURN'.format(player2.name.upper()))
-        F.drawBox(player2_AttackBoard)
-        PCAttack = player2.attackShip(player2_AttackBoard,player1_Board,player2)
-        if PCAttack[0]:
-            print('{} hit one ship!'.format(player2.name.capitalize()))
-            checkStatus([player1_sL3_1,player1_sL3_2,player1_sL4,player1_sL5],PCAttack[1],PCAttack[2])
-            game = player1.checkShips(player1Ships)
-            if not game:
-                print('{}, YOU ARE THE WINNER!! CONGRATULATIONS!!'.format(player2.name))
-                print('---------------------------------------------------------------------------------------')
-                winner = player2
-                break
-        else:
-            print('Oh no! You hit the water')
-        print('---------------------------------------------------------------------------------------')
-        os.system("pause")
-        F.clearConsole()
-
-        print('DATA GAME\n----------------------------')
-        print('PLAYER 1')
-        F.drawBox(player1_Board)
-        player1.printData()
-        print('----------------------------')
-        print('PLAYER 2')
-        F.drawBox(player2_Board)
-        player2.printData()
-        os.system("pause")
-
-
-    print('--------------------------------------STATISTICS---------------------------------------')
-    player1.printStatistics()
+    print('PLAYER SHIPS')
+    for playerShip in player1Ships:
+        print('----*----')
+        playerShip.printData()
     print('---------------------------------------------------------------------------------------')
-    player2.printStatistics()
+    print('ENEMY SHIPS')
+    for enemyShip in enemyShips:
+        print('----*----')
+        enemyShip.printData()
+    os.system("pause")
+    F.clearConsole()
+
+print('--------------------------------------STATISTICS---------------------------------------')
+player1.printStatistics()
+print('---------------------------------------------------------------------------------------')
+playerEnemy.printStatistics()
+
+os.system("pause")
+F.clearConsole()
+
+print('DATA GAME\n----------------------------')
+print('PLAYER 1')
+F.drawBox(player1_Board)
+player1.printData()
+print('----------------------------')
+print('PLAYER 2')
+F.drawBox(Enemy_Board)
+playerEnemy.printData()
+os.system("pause")

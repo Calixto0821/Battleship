@@ -6,7 +6,6 @@ class player():
     successfulShots = 0
     missedShots = 0
     floatingShips =[]
-    sunkenShips =[]
 
     def __init__(self, playerName, type):
         self.name = playerName
@@ -16,7 +15,6 @@ class player():
         print('Data Player {}'.format(self.name))
         print('Shots: ',self.shots)
         print('Ships floating [{}]: '.format(len(self.floatingShips)),self.floatingShips)
-        print('Ships sunken [{}]: '.format(len(self.sunkenShips)),self.sunkenShips)
     
     def printStatistics(self):
         if len(self.floatingShips) == 0:
@@ -50,7 +48,8 @@ class player():
             if enemyBoard[attackY-1][attackX-1] != 'o' and enemyBoard[attackY-1][attackX-1] != '*':
                 validCoors = True
             else:
-                print('You chose that space before, choose another one different')  
+                if user.type == 1:
+                    print('You chose that space before, choose another one different')  
         self.shots += 1
         
         if enemyBoard[attackY-1][attackX-1] != ' ':
@@ -68,9 +67,8 @@ class player():
     def checkShips(self, shipList):
         for ship in shipList:
             if ship.sunk and (ship in self.floatingShips)  :
-                self.floatingShips.remove(ship)
-                self.sunkenShips.append(ship)                
-        if len(self.sunkenShips) == 4:
+                self.floatingShips.remove(ship)                
+        if len(self.floatingShips) == 0:
             return False #Game Over
-        elif len(self.floatingShips) > 0:
+        else:
             return True
